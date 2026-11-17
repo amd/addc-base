@@ -1,0 +1,6 @@
+builddir/
+build/
+build-cmake/
+*.cper
+*.pyc
+__pycache__/

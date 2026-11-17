@@ -1,0 +1,4 @@
+# Meson downloads wrap sources here — do not commit them
+*/
+packagecache/
+.wraplock

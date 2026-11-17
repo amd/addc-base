@@ -1,0 +1,20 @@
+{
+  "project": {
+    "repository": "https://github.com/amd/addc-base",
+    "license": "MIT",
+    "license_file": "LICENSE"
+  },
+  "third_party_components": [
+    {
+      "name": "nlohmann/json",
+      "meson_subproject": "nlohmann_json",
+      "wrap_file": "subprojects/nlohmann_json.wrap",
+      "license": "MIT",
+      "upstream_license_file": "LICENSE.MIT",
+      "copyright": "Copyright (c) 2013-2025 Niels Lohmann",
+      "use": "JSON parsing and serialization"
+    }
+  ],
+  "media_assets": [],
+  "internal_only_paths": []
+}

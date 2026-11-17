@@ -1,0 +1,12 @@
+option('enable_lib', type: 'boolean', value: true,
+    description: 'Build and install the Base consumer library')
+option('enable_cli', type: 'boolean', value: true,
+    description: 'Build the Base command-line tool')
+option('enable_tests', type: 'boolean', value: true,
+    description: 'Build Base tests and examples')
+option('enable_fuzzing', type: 'boolean', value: false,
+    description: 'Build Clang libFuzzer targets (developer/CI only)')
+option('enable_install_headers', type: 'boolean', value: true,
+    description: 'Install Base public headers')
+option('projects', type: 'array', value: ['all'],
+    description: 'Hardware projects to compile (all or canonical project names)')
