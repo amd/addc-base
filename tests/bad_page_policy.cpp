@@ -41,7 +41,7 @@ int main()
     {
         return 3;
     }
-    if (is_bad_page_retirement("mi450", true, match0))
+    if (!is_bad_page_retirement("mi400", true, match0))
     {
         return 4;
     }
@@ -56,6 +56,22 @@ int main()
             McaRegisters{statusWithExtension(0x0U), ipid(0x95U, 0U), 0U, 0U}))
     {
         return 6;
+    }
+    if (is_bad_page_retirement("mi400", false, match0))
+    {
+        return 7;
+    }
+    if (is_bad_page_retirement(
+            "mi400", true,
+            McaRegisters{statusWithExtension(0x1U), ipid(0x96U, 0U), 0U, 0U}))
+    {
+        return 8;
+    }
+    if (is_bad_page_retirement(
+            "mi400", true,
+            McaRegisters{statusWithExtension(0x0U), ipid(0x95U, 0U), 0U, 0U}))
+    {
+        return 9;
     }
 
     return 0;

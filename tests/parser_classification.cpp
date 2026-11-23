@@ -29,7 +29,7 @@ int main()
 
 #if defined(ADDC_HAS_MI300A) || defined(ADDC_HAS_MI300C) ||                  \
     defined(ADDC_HAS_MI300X) || defined(ADDC_HAS_MI325X) ||                 \
-    defined(ADDC_HAS_MI350) || defined(ADDC_HAS_MI450)
+    defined(ADDC_HAS_MI350) || defined(ADDC_HAS_MI400)
     // The descriptor revision selects the GPU runtime layout in every build
     // that contains the runtime parser.
     addc::cper::SectionDescriptor runtime{};
@@ -40,7 +40,7 @@ int main()
         {0x81U, 0xa2U, 0xacU, 0x69U, 0x17U, 0x80U, 0x55U, 0x1dU}};
     runtime.revision_major = 0x32U;
     if (addc::cper::classify_section(header, runtime).kind !=
-        addc::cper::SectionKind::AmdMi450Runtime)
+        addc::cper::SectionKind::AmdMi400Runtime)
     {
         return 5;
     }
@@ -52,9 +52,10 @@ int main()
     }
 #endif
 
-#ifdef ADDC_HAS_MI450
-    // Early MI450 firmware uses the broad Venice-compatible 0x31 revision.
-    // The explicit classifier must select the MI450 discriminator first.
+#ifdef ADDC_HAS_MI400
+    // Early MI400 Series firmware uses the broad Venice-compatible 0x31
+    // revision. The explicit classifier must select the MI400 Series
+    // discriminator first.
     addc::cper::SectionDescriptor overlapping_mtl{};
     overlapping_mtl.section_type.d1 = 0x00000800U;
     overlapping_mtl.section_type.d2 = 0x1022U;
@@ -62,7 +63,7 @@ int main()
     overlapping_mtl.section_length = 8U * 1024U;
     overlapping_mtl.fru_text = "GPU_MID0";
     if (addc::cper::classify_section(header, overlapping_mtl).kind !=
-        addc::cper::SectionKind::AmdMi450Mtl)
+        addc::cper::SectionKind::AmdMi400Mtl)
     {
         return 3;
     }

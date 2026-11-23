@@ -37,7 +37,7 @@ int main()
     {
         return 6;
     }
-    if (decoded.afid != std::vector<int>{25192})
+    if (decoded.afid != std::vector<int>{25189})
     {
         return 7;
     }
@@ -63,6 +63,35 @@ int main()
     if (unknown.afid != std::vector<int>{addc::kAfidSentinel})
     {
         return 12;
+    }
+
+    const auto afidOf =
+        [](uint32_t code, uint32_t sub_type, uint32_t brk = 0U) {
+            std::array<uint32_t, 8> r{};
+            r[0] = code;
+            r[1] = sub_type;
+            r[3] = brk & 0xFFU;
+            r[4] = (brk >> 8U) & 0xFFU;
+            r[5] = (brk >> 16U) & 0xFFU;
+            r[6] = (brk >> 24U) & 0xFFU;
+            return addc::decoder::decode_outbound(r).afid;
+        };
+    const std::vector<int> none{addc::kAfidSentinel};
+    if (afidOf(0xA1U, 0x01U) != std::vector<int>{25188} ||
+        afidOf(0xA1U, 0x04U) != std::vector<int>{25189} ||
+        afidOf(0xA1U, 0x0EU) != std::vector<int>{25199} ||
+        afidOf(0xA1U, 0x12U) != std::vector<int>{25203} ||
+        afidOf(0xA1U, 0x02U) != none || afidOf(0xA1U, 0x15U) != none)
+    {
+        return 13;
+    }
+    if (afidOf(0xBFU, 0x01U, 0x0U) != none ||
+        afidOf(0xBFU, 0x01U, 0x1U) != std::vector<int>{25252} ||
+        afidOf(0xBFU, 0x01U, 0x402U) != std::vector<int>{25253, 25262} ||
+        afidOf(0xBFU, 0x01U, 0x800U) != none ||
+        afidOf(0xBFU, 0x02U, 0x1U) != none)
+    {
+        return 14;
     }
     return 0;
 }

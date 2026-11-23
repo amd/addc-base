@@ -39,17 +39,17 @@ int main()
             .data = std::vector<uint8_t>{zero_bank.begin(), zero_bank.end()},
         }},
     };
-    const auto mi450 =
-        addc::decoder::decode_base_dbglog("mi450", {mca_group});
-    if (mi450.size() != 1U || !mi450[0].mca_bank)
+    const auto mi400 =
+        addc::decoder::decode_base_dbglog("mi400", {mca_group});
+    if (mi400.size() != 1U || !mi400[0].mca_bank)
     {
         return 5;
     }
-    if (!mi450[0].key_name.empty() || !mi450[0].data_array.is_null())
+    if (!mi400[0].key_name.empty() || !mi400[0].data_array.is_null())
     {
         return 6;
     }
-    if (mi450[0].afid != std::vector<int>{25540})
+    if (mi400[0].afid != std::vector<int>{25540})
     {
         return 7;
     }

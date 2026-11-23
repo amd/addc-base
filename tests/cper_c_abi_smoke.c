@@ -258,8 +258,7 @@ static int checkSentinelAfid(addc_context_t* ctx)
 
     addc_cper_summary_entry_t entry = {0};
     status = addc_cper_get_summary(ctx, cper, cper_size, &entry, &count);
-    if (status != ADDC_STATUS_SUCCESS || count != 1U ||
-        entry.afid != ADDC_UNCLASSIFIED_AFID ||
+    if (status != ADDC_STATUS_SUCCESS || count != 1U || entry.afid != 25764 ||
         strcmp(entry.fru_text, "SENTINEL_FRU") != 0 ||
         entry.additional_context[0] != '\0')
     {
@@ -271,10 +270,7 @@ static int checkSentinelAfid(addc_context_t* ctx)
     char* error = NULL;
     const int json_status = addc_get_error_summary_ctx(
         ctx, cper, cper_size, "sentinel.cper", &json, &error);
-#define ADDC_STRINGIFY_VALUE(value) #value
-#define ADDC_STRINGIFY(value) ADDC_STRINGIFY_VALUE(value)
-    static const char expected_afid[] =
-        "\"afid\": " ADDC_STRINGIFY(ADDC_UNCLASSIFIED_AFID);
+    static const char expected_afid[] = "\"afid\": 25764";
     const int failed = json_status != 0 || !json || error ||
                        strstr(json ? json : "", expected_afid) == NULL;
 
