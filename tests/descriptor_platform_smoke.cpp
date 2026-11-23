@@ -15,8 +15,8 @@ namespace
 {
 
 using addc::pipeline::AmdGpuCrashdumpSection;
-using addc::pipeline::AmdGpuMi450CrashdumpSection;
-using addc::pipeline::AmdGpuMi450RuntimeSection;
+using addc::pipeline::AmdGpuMi400CrashdumpSection;
+using addc::pipeline::AmdGpuMi400RuntimeSection;
 using addc::pipeline::AmdGpuRuntimeSection;
 
 nlohmann::json descriptor(std::string_view guid, uint8_t revision_major)
@@ -76,12 +76,12 @@ int main()
         return 1;
     }
 
-    const auto mi450_runtime = addc::cper::convert_section(
-        addc::cper::SectionKind::AmdMi450Runtime,
+    const auto mi400_runtime = addc::cper::convert_section(
+        addc::cper::SectionKind::AmdMi400Runtime,
         descriptor(AmdGpuRuntimeSection::kGuid, 0x32U),
         gpuBody("AmdMi300Runtime", "74A5"), {}, {});
-    if (!hasDescriptorPlatform<AmdGpuMi450RuntimeSection>(
-            mi450_runtime, "mi450", "AMD Instinct MI450X", "74A5"))
+    if (!hasDescriptorPlatform<AmdGpuMi400RuntimeSection>(
+            mi400_runtime, "mi400", "AMD Instinct MI400 Series", "74A5"))
     {
         return 2;
     }
@@ -96,12 +96,12 @@ int main()
         return 3;
     }
 
-    const auto mi450_crashdump = addc::cper::convert_section(
-        addc::cper::SectionKind::AmdMi450Crashdump,
+    const auto mi400_crashdump = addc::cper::convert_section(
+        addc::cper::SectionKind::AmdMi400Crashdump,
         descriptor(AmdGpuCrashdumpSection::kGuid, 0x32U),
         gpuBody("AmdMi450Crashdump", "74A6"), {}, {});
-    if (!hasDescriptorPlatform<AmdGpuMi450CrashdumpSection>(
-            mi450_crashdump, "mi450", "AMD Instinct MI450X", "74A6"))
+    if (!hasDescriptorPlatform<AmdGpuMi400CrashdumpSection>(
+            mi400_crashdump, "mi400", "AMD Instinct MI400 Series", "74A6"))
     {
         return 4;
     }

@@ -116,10 +116,10 @@ int main()
             body, descriptor, addc::cper::sections::AmdGpuLayout::Mi300,
             context...);
     };
-    [[maybe_unused]] const auto mi450 = [](auto body, const auto& descriptor,
+    [[maybe_unused]] const auto mi400 = [](auto body, const auto& descriptor,
                                            auto&... context) {
         return addc::cper::sections::parse_amd_gpu_crashdump(
-            body, descriptor, addc::cper::sections::AmdGpuLayout::Mi450,
+            body, descriptor, addc::cper::sections::AmdGpuLayout::Mi400,
             context...);
     };
 
@@ -134,7 +134,7 @@ int main()
     addc::cper::SectionDescriptor runtime_descriptor;
 #if defined(ADDC_HAS_MI300A) || defined(ADDC_HAS_MI300C) ||                  \
     defined(ADDC_HAS_MI300X) || defined(ADDC_HAS_MI325X) ||                 \
-    defined(ADDC_HAS_MI350) || defined(ADDC_HAS_MI450)
+    defined(ADDC_HAS_MI350) || defined(ADDC_HAS_MI400)
     const auto runtime =
         addc::cper::sections::parse_amd_gpu_runtime(
             runtime_body, runtime_descriptor,
@@ -230,9 +230,9 @@ int main()
         return 7;
     }
 #endif
-#ifdef ADDC_HAS_MI450
+#ifdef ADDC_HAS_MI400
     if (!parserRepairsTolerantAndRejectsStrict(
-            mi450, gpu_body))
+            mi400, gpu_body))
     {
         return 8;
     }
@@ -273,7 +273,7 @@ int main()
     [[maybe_unused]] std::vector<uint8_t> mtl_body(16U, 0U);
 #if defined(ADDC_HAS_EMBEDDED_2005) || defined(ADDC_HAS_GENOA) ||                 \
     defined(ADDC_HAS_TURIN) || defined(ADDC_HAS_VENICE) ||                  \
-    defined(ADDC_HAS_MI450)
+    defined(ADDC_HAS_MI400)
     if (!nativeBinaryIsInternalOnly(
             mtl, mtl_body,
             [](const nlohmann::json& value) -> const nlohmann::json& {
@@ -285,6 +285,7 @@ int main()
 #endif
 
     std::vector<uint8_t> pcie_body(302U, 0U);
+    pcie_body[0] = 0x40U; // Capability Structure valid
     if (!nativeBinaryIsInternalOnly(
             pcie, pcie_body,
             [](const nlohmann::json& value) -> const nlohmann::json& {
@@ -307,9 +308,9 @@ int main()
     }
 #endif
 
-#ifdef ADDC_HAS_MI450
+#ifdef ADDC_HAS_MI400
     if (!nativeBinaryIsInternalOnly(
-            mi450, gpu_body,
+            mi400, gpu_body,
             [](const nlohmann::json& value) -> const nlohmann::json& {
                 return value["gpuContextStructures"][0]["data"];
             }))

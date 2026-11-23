@@ -117,8 +117,7 @@ std::optional<nlohmann::ordered_json> legacyIrAnalysis(
 
     const auto entries =
         addc::get_error_summary_entries(bytes, "sentinel.cper", &error);
-    if (!entries || entries->size() != 1U ||
-        (*entries)[0].afid != addc::kUnclassifiedAfid ||
+    if (!entries || entries->size() != 1U || (*entries)[0].afid != 25764 ||
         (*entries)[0].fru_text != "SENTINEL_FRU")
     {
         return 3;
@@ -127,7 +126,7 @@ std::optional<nlohmann::ordered_json> legacyIrAnalysis(
     const auto summary_json =
         addc::get_error_summary_json(bytes, "sentinel.cper", &error);
     if (!summary_json || summary_json->size() != 1U ||
-        (*summary_json)[0]["afid"] != addc::kUnclassifiedAfid ||
+        (*summary_json)[0]["afid"] != 25764 ||
         (*summary_json)[0]["fru_text"] != "SENTINEL_FRU")
     {
         return 4;
